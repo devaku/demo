@@ -1,0 +1,25 @@
+:root {
+    --z-light-blue: #c0d6df;
+    --z-yellow: #f1fb93;
+    --z-rich-blue: #025497;
+    --z-dark-blue: #01223c;
+    --z-violet: #320e3b;
+    --z-orange: #ff715b;
+    --z-brown: #feb860;
+}
+
+.t-r {
+    text-align: right;
+}
+
+.calculator-main {
+    font-size: 1.7em;
+}
+
+.calculator-aside {
+    font-size: 1em;
+}
+
+.calculator-btn {
+    width: 74px;
+}
