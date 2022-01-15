@@ -1,19 +1,28 @@
-import React, { useState, setState } from 'react';
+import React, { useState } from 'react';
 import Button from './components/Button';
 
 function App() {
+    let [aside, setAside] = useState('');
+    let [main, setMain] = useState('0');
+
     let [numberButtons] = useState({
         values: [7, 8, 9, 4, 5, 6, 1, 2, 3],
     });
 
-    let [numberFunctions] = useState({
-        values: ['+', '-', '*', '/'],
-    });
+    let handleSum = () => {
+        console.log(main);
+        // let temp = main;
 
-    let [aside, setAside] = useState('');
-    let [main, setMain] = useState('0');
+        // temp = `${temp} + `;
+        // setAside(temp);
+    };
 
-    let handleSum = () => {};
+    let [numberFunctions] = useState([
+        {
+            operation: '+',
+            mathFunction: handleSum,
+        },
+    ]);
 
     let handleButtonNumpad = (value) => {
         // Do not concatenate 0 on initial
@@ -32,7 +41,7 @@ function App() {
     };
 
     return (
-        <main className="container mt-3 mb-3">
+        <main className="container mt-3 mb-3 calculator">
             <div className="mb-2">
                 <p className="t-r calculator-aside">{aside}</p>
                 <p className="t-r calculator-main">{main}</p>
@@ -61,11 +70,12 @@ function App() {
                     </div>
                 </div>
                 <div className="d-flex flex-column w-25">
-                    {numberFunctions.values.map((operations, index) => {
+                    {numberFunctions.map((math, index) => {
                         return (
                             <Button
                                 className="w-100"
-                                value={operations}
+                                value={math.operation}
+                                handleClick={() => math.mathFunction()}
                                 key={index}
                             ></Button>
                         );

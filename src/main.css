@@ -12,6 +12,10 @@
     text-align: right;
 }
 
+.calculator {
+    width: 320px;
+}
+
 .calculator-main {
     font-size: 1.7em;
 }
