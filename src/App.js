@@ -2,42 +2,119 @@ import React, { useState } from 'react';
 import Button from './components/Button';
 
 function App() {
+    // Use to display the operations
     let [aside, setAside] = useState('');
+
+    // The main numbers being displayed
     let [main, setMain] = useState('0');
 
-    let [numberButtons] = useState({
+    let [initialClear, setInitialClear] = useState(false);
+    let [startOver, setStartOver] = useState(false);
+    let [holder, setHolder] = useState('0');
+    let [mathOperation, setMathOperation] = useState('');
+
+    const numberButtons = {
         values: [7, 8, 9, 4, 5, 6, 1, 2, 3],
-    });
-
-    let handleSum = () => {
-        console.log(main);
-        // let temp = main;
-
-        // temp = `${temp} + `;
-        // setAside(temp);
     };
 
-    let [numberFunctions] = useState([
+    let handleSum = () => {
+        // If there's a mathOperation already in play
+        // Evaluate that first
+        if (mathOperation === 'sum') {
+            let firstValue = parseInt(holder);
+            let secondValue = parseInt(main);
+
+            console.log(`${firstValue} + ${secondValue}`);
+            let total = firstValue + secondValue;
+            let temp = `${total} + `;
+
+            // Store the value for evaluation
+            setHolder(total);
+
+            setAside(temp);
+        } else {
+            let temp = main;
+
+            // Store the value for evaluation
+            setHolder(temp);
+            temp = `${temp} + `;
+
+            setMathOperation('sum');
+
+            // Display the value
+            setAside(temp);
+        }
+        // Clear the value on main
+        // So that new values can be added
+        setInitialClear(true);
+    };
+
+    let handleEqual = () => {
+        switch (mathOperation) {
+            case 'sum':
+                let firstValue = parseInt(holder);
+                let secondValue = parseInt(main);
+                let total = firstValue + secondValue;
+                let temp = `${firstValue} + ${secondValue} =`;
+
+                // Store the value for evaluation
+                setHolder(total);
+
+                // Display
+                setAside(temp);
+                setMain(total);
+                setMathOperation('');
+                setStartOver(true);
+                break;
+
+            default:
+                break;
+        }
+    };
+
+    let handleClear = () => {
+        setMain('0');
+        setAside('');
+        setHolder('');
+        setMathOperation('');
+    };
+
+    const numberFunctions = [
         {
             operation: '+',
             mathFunction: handleSum,
         },
-    ]);
+    ];
 
     let handleButtonNumpad = (value) => {
+        let temp = main;
+        if (startOver) {
+            setStartOver(false);
+            setMain('');
+            temp = '';
+            setAside('');
+            setHolder('');
+            setMathOperation('');
+        }
+
         // Do not concatenate 0 on initial
-        if (main === '0') {
-            main = '';
+        if (temp === '0') {
+            temp = '';
         }
 
         // If length is greater than 16, do not continue
-        if (main.length > 17) {
+        if (temp.length > 17) {
             return;
         }
-        let temp = main;
 
-        temp = `${main}${value}`;
-        setMain(temp);
+        // If aside is displayed, clear the initial value
+        if (initialClear) {
+            temp = '';
+            setInitialClear(false);
+        }
+
+        temp = `${temp}${value}`;
+        setMain(() => temp);
     };
 
     return (
@@ -48,8 +125,16 @@ function App() {
             </div>
 
             <div className="d-flex flex-row flex-wrap w-100">
-                <Button className="flex-grow-1" value="="></Button>
-                <Button className="w-25" value="C"></Button>
+                <Button
+                    className="flex-grow-1"
+                    handleClick={() => handleEqual()}
+                    value="="
+                ></Button>
+                <Button
+                    className="w-25"
+                    value="C"
+                    handleClick={() => handleClear()}
+                ></Button>
             </div>
 
             <div className="d-flex w-100">
