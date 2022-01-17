@@ -3,9 +3,6 @@ import Button from './components/Button';
 
 function App() {
     // Use to display the operations
-    let leftValue = '';
-    let rightValue = '';
-    
     let [aside, setAside] = useState('');
 
     // The main numbers being displayed
@@ -74,10 +71,18 @@ function App() {
         // If there's a mathOperation already in play
         // Evaluate that first
         if (mathOperation) {
-            let total = handleMathOperation();
-            let temp = total;
+            // If operation is different from the previous one, do not evaulate
+            let total;
+            let temp;
+            if (mathOperation === mathOperationLabel.ADDITION) {
+                total = handleMathOperation();
+                temp = total;
+            } else {
+                total = holder;
+                temp = holder;
+            }
+
             temp = `${temp} + `;
-            console.log('temp: ', temp);
             setMathOperation(mathOperationLabel.ADDITION);
 
             // Display the values
@@ -105,11 +110,18 @@ function App() {
         // If there's a mathOperation already in play
         // Evaluate that first
         if (mathOperation) {
-            let total = handleMathOperation();
+            // If operation is different from the previous one, do not evaulate
+            let total;
+            let temp;
+            if (mathOperation === mathOperationLabel.SUBTRACTION) {
+                total = handleMathOperation();
+                temp = total;
+            } else {
+                total = holder;
+                temp = holder;
+            }
 
-            let temp = total;
             temp = `${temp} - `;
-            console.log('temp: ', temp);
             setMathOperation(mathOperationLabel.SUBTRACTION);
 
             // Display the values
@@ -136,17 +148,24 @@ function App() {
     let handleProduct = () => {
         // If there's a mathOperation already in play
         // Evaluate that first
-        if (mathOperation === mathOperationLabel.MULTIPLY) {
-            let firstValue = parseInt(holder);
-            let secondValue = parseInt(main);
+        if (mathOperation) {
+            // If operation is different from the previous one, do not evaulate
+            let total;
+            let temp;
+            if (mathOperation === mathOperationLabel.MULTIPLY) {
+                total = handleMathOperation();
+                temp = total;
+            } else {
+                total = holder;
+                temp = holder;
+            }
 
-            let total = firstValue * secondValue;
-            let temp = `${total} x `;
+            temp = `${temp} x `;
+            setMathOperation(mathOperationLabel.MULTIPLY);
 
-            // Store the value for evaluation
-            setHolder(total);
-
+            // Display the values
             setAside(temp);
+            setMain(total);
         } else {
             let temp = main;
 
@@ -167,17 +186,24 @@ function App() {
     let handleDivision = () => {
         // If there's a mathOperation already in play
         // Evaluate that first
-        if (mathOperation === mathOperationLabel.DIVIDE) {
-            let firstValue = parseInt(holder);
-            let secondValue = parseInt(main);
+        if (mathOperation) {
+            // If operation is different from the previous one, do not evaulate
+            let total;
+            let temp;
+            if (mathOperation === mathOperationLabel.DIVIDE) {
+                total = handleMathOperation();
+                temp = total;
+            } else {
+                total = holder;
+                temp = holder;
+            }
 
-            let total = firstValue / secondValue;
-            let temp = `${total} / `;
+            temp = `${temp} / `;
+            setMathOperation(mathOperationLabel.DIVIDE);
 
-            // Store the value for evaluation
-            setHolder(total);
-
+            // Display the values
             setAside(temp);
+            setMain(total);
         } else {
             let temp = main;
 
