@@ -3,6 +3,9 @@ import Button from './components/Button';
 
 function App() {
     // Use to display the operations
+    let leftValue = '';
+    let rightValue = '';
+    
     let [aside, setAside] = useState('');
 
     // The main numbers being displayed
@@ -17,16 +20,128 @@ function App() {
         values: [7, 8, 9, 4, 5, 6, 1, 2, 3],
     };
 
+    const mathOperationLabel = {
+        ADDITION: 'ADD',
+        SUBTRACTION: 'SUB',
+        DIVIDE: 'DIV',
+        MULTIPLY: 'MUL',
+    };
+
+    /**
+     * ARITHMETIC OPERATIONS
+     */
+
+    let handleMathOperation = () => {
+        let total;
+        let temp;
+        let firstValue = parseInt(holder);
+        let secondValue = parseInt(main);
+        switch (mathOperation) {
+            case mathOperationLabel.ADDITION:
+                total = firstValue + secondValue;
+                temp = `${total} +`;
+                break;
+
+            case mathOperationLabel.SUBTRACTION:
+                total = firstValue - secondValue;
+                temp = `${total} - `;
+                break;
+
+            case mathOperationLabel.MULTIPLY:
+                total = firstValue * secondValue;
+                temp = `${total} x `;
+                break;
+
+            case mathOperationLabel.DIVIDE:
+                total = firstValue / secondValue;
+                temp = `${total} / `;
+                break;
+
+            default:
+                break;
+        }
+
+        // Store the value for evaluation
+        setHolder(total);
+
+        // Display
+        setAside(temp);
+
+        return total;
+    };
+
     let handleSum = () => {
         // If there's a mathOperation already in play
         // Evaluate that first
-        if (mathOperation === 'sum') {
+        if (mathOperation) {
+            let total = handleMathOperation();
+            let temp = total;
+            temp = `${temp} + `;
+            console.log('temp: ', temp);
+            setMathOperation(mathOperationLabel.ADDITION);
+
+            // Display the values
+            setAside(temp);
+            setMain(total);
+        } else {
+            let temp = main;
+
+            // Store the value for evaluation
+            setHolder(temp);
+            temp = `${temp} + `;
+
+            setMathOperation(mathOperationLabel.ADDITION);
+
+            // Display the value
+            setAside(temp);
+        }
+
+        // Clear the value on main
+        // So that new values can be added
+        setInitialClear(true);
+    };
+
+    let handleDifference = () => {
+        // If there's a mathOperation already in play
+        // Evaluate that first
+        if (mathOperation) {
+            let total = handleMathOperation();
+
+            let temp = total;
+            temp = `${temp} - `;
+            console.log('temp: ', temp);
+            setMathOperation(mathOperationLabel.SUBTRACTION);
+
+            // Display the values
+            setAside(temp);
+            setMain(total);
+        } else {
+            let temp = main;
+
+            // Store the value for evaluation
+            setHolder(temp);
+            temp = `${temp} - `;
+
+            setMathOperation(mathOperationLabel.SUBTRACTION);
+
+            // Display the value
+            setAside(temp);
+        }
+
+        // Clear the value on main
+        // So that new values can be added
+        setInitialClear(true);
+    };
+
+    let handleProduct = () => {
+        // If there's a mathOperation already in play
+        // Evaluate that first
+        if (mathOperation === mathOperationLabel.MULTIPLY) {
             let firstValue = parseInt(holder);
             let secondValue = parseInt(main);
 
-            console.log(`${firstValue} + ${secondValue}`);
-            let total = firstValue + secondValue;
-            let temp = `${total} + `;
+            let total = firstValue * secondValue;
+            let temp = `${total} x `;
 
             // Store the value for evaluation
             setHolder(total);
@@ -37,9 +152,9 @@ function App() {
 
             // Store the value for evaluation
             setHolder(temp);
-            temp = `${temp} + `;
+            temp = `${temp} x `;
 
-            setMathOperation('sum');
+            setMathOperation(mathOperationLabel.MULTIPLY);
 
             // Display the value
             setAside(temp);
@@ -49,27 +164,80 @@ function App() {
         setInitialClear(true);
     };
 
+    let handleDivision = () => {
+        // If there's a mathOperation already in play
+        // Evaluate that first
+        if (mathOperation === mathOperationLabel.DIVIDE) {
+            let firstValue = parseInt(holder);
+            let secondValue = parseInt(main);
+
+            let total = firstValue / secondValue;
+            let temp = `${total} / `;
+
+            // Store the value for evaluation
+            setHolder(total);
+
+            setAside(temp);
+        } else {
+            let temp = main;
+
+            // Store the value for evaluation
+            setHolder(temp);
+            temp = `${temp} / `;
+
+            setMathOperation(mathOperationLabel.DIVIDE);
+
+            // Display the value
+            setAside(temp);
+        }
+        // Clear the value on main
+        // So that new values can be added
+        setInitialClear(true);
+    };
+
+    /**
+     * CALCULATOR FUNCTIONS
+     */
+
     let handleEqual = () => {
+        let total;
+        let temp;
+        let firstValue = parseInt(holder);
+        let secondValue = parseInt(main);
         switch (mathOperation) {
-            case 'sum':
-                let firstValue = parseInt(holder);
-                let secondValue = parseInt(main);
-                let total = firstValue + secondValue;
-                let temp = `${firstValue} + ${secondValue} =`;
+            case mathOperationLabel.ADDITION:
+                total = firstValue + secondValue;
+                temp = `${firstValue} + ${secondValue} =`;
+                break;
 
-                // Store the value for evaluation
-                setHolder(total);
+            case mathOperationLabel.SUBTRACTION:
+                total = firstValue - secondValue;
+                temp = `${firstValue} - ${secondValue} =`;
+                break;
 
-                // Display
-                setAside(temp);
-                setMain(total);
-                setMathOperation('');
-                setStartOver(true);
+            case mathOperationLabel.MULTIPLY:
+                total = firstValue * secondValue;
+                temp = `${firstValue} x ${secondValue} =`;
+                break;
+
+            case mathOperationLabel.DIVIDE:
+                total = firstValue / secondValue;
+                temp = `${firstValue} / ${secondValue} =`;
                 break;
 
             default:
                 break;
         }
+
+        // Store the value for evaluation
+        setHolder(total);
+
+        // Display
+        setAside(temp);
+
+        setMain(total);
+        setMathOperation('');
+        setStartOver(true);
     };
 
     let handleClear = () => {
@@ -83,6 +251,19 @@ function App() {
         {
             operation: '+',
             mathFunction: handleSum,
+        },
+        {
+            operation: '-',
+            mathFunction: handleDifference,
+        },
+
+        {
+            operation: 'x',
+            mathFunction: handleProduct,
+        },
+        {
+            operation: '/',
+            mathFunction: handleDivision,
         },
     ];
 
@@ -151,7 +332,11 @@ function App() {
                     })}
 
                     <div className="d-flex flex-row w-100">
-                        <Button className="w-100" value="0"></Button>
+                        <Button
+                            className="w-100"
+                            handleClick={() => handleButtonNumpad(0)}
+                            value="0"
+                        ></Button>
                     </div>
                 </div>
                 <div className="d-flex flex-column w-25">
