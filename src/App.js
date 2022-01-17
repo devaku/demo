@@ -333,19 +333,19 @@ function App() {
 
             <div className="d-flex flex-row flex-wrap w-100">
                 <Button
-                    className="flex-grow-1"
+                    className="flex-grow-1 calculator-btn"
                     handleClick={() => handleEqual()}
                     value="="
                 ></Button>
                 <Button
-                    className="w-25"
+                    className=" calculator-btn"
                     value="C"
                     handleClick={() => handleClear()}
                 ></Button>
             </div>
 
             <div className="d-flex w-100">
-                <div className="d-flex flex-row flex-wrap w-75">
+                <div className="d-flex flex-row flex-wrap justify-content-around w-75">
                     {numberButtons.values.map((numbers, index) => {
                         return (
                             <Button
@@ -359,7 +359,7 @@ function App() {
 
                     <div className="d-flex flex-row w-100">
                         <Button
-                            className="w-100"
+                            className="w-100 calculator-btn"
                             handleClick={() => handleButtonNumpad(0)}
                             value="0"
                         ></Button>
@@ -369,7 +369,7 @@ function App() {
                     {numberFunctions.map((math, index) => {
                         return (
                             <Button
-                                className="w-100"
+                                className="w-100 calculator-btn"
                                 value={math.operation}
                                 handleClick={() => math.mathFunction()}
                                 key={index}

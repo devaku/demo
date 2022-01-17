@@ -13,7 +13,7 @@
 }
 
 .calculator {
-    width: 320px;
+    width: 350px;
 }
 
 .calculator-main {
@@ -25,5 +25,21 @@
 }
 
 .calculator-btn {
+    background-color: #025497;
+    border: 1px solid black;
+    border-radius: 2px;
+    color: white;
+    display: inline-block;
+    font-size: 16px;
+    margin: 1px;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    transition-duration: 0.4s;
     width: 74px;
+}
+
+.calculator-btn:hover {
+    background-color: #f1fb93;
+    color: black;
 }
